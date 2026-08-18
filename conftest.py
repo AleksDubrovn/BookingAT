@@ -1,18 +1,17 @@
-import datetime
 from datetime import timedelta, datetime
-from Core.clients.api_client import APIClient
+
 import pytest
 from faker import Faker
 
+from Core.clients.api_client import APIClient
 
-@pytest.fixture(scope='session')
+
+@pytest.fixture(scope="session")
 def api_client():
-    client = APIClient()
-    client.auth()
-    return client
+    return APIClient()
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def booking_dates():
     today = datetime.today()
     checkin_date = today + timedelta(days=10)

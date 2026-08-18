@@ -14,29 +14,28 @@ load_dotenv()
 
 
 class APIClient:
-
     def __init__(self):
         environment_str = os.getenv("ENVIRONMENT")
 
         try:
             environment = Environment[environment_str]
-        except KeyError:
+        except (KeyError, TypeError):
             raise ValueError(
                 f"Unsupported environment value: {environment_str}"
-            )
+            ) from None
 
         self.base_url = self.get_base_url(environment)
         self.session = requests.Session()
         self.session.headers = {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-  }
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
 
     def get_base_url(self, environment: Environment) -> str:
         if environment == Environment.TESTING:
             return os.getenv("TEST_BASE_URL")
 
-        elif environment == Environment.PROD:
+        if environment == Environment.PROD:
             return os.getenv("PROD_BASE_URL")
 
         raise ValueError(
@@ -61,7 +60,9 @@ class APIClient:
             response = self.session.post(url, json=payload, timeout=Timeout.TIMEOUT.value)
             response.raise_for_status()
         with allure.step("Assert status code"):
-                assert response.status_code == 200, f"Expected status code 201 but got: {response.status_code}"
+            assert response.status_code == 200, (
+                f"Expected status code 200 but got: {response.status_code}"
+            )
         token = response.json()["token"]
         with allure.step("Update headers"):
             self.session.headers.update({"Cookie": f"token={token}"})
@@ -144,5 +145,4 @@ class APIClient:
             jsonschema.validate(instance=response_json, schema=BOOKING_SCHEMA)
 
         return response_json
-
 

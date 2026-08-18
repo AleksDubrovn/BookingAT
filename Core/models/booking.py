@@ -1,12 +1,13 @@
 from datetime import date
-from pydantic import  BaseModel
 from typing import Optional
-from datetime import date
+
+from pydantic import BaseModel
 
 
 class BookingDates(BaseModel):
-    checkin:date
-    checkout:date
+    checkin: date
+    checkout: date
+
 
 class Booking(BaseModel):
     firstname: str
@@ -16,7 +17,7 @@ class Booking(BaseModel):
     bookingdates: BookingDates
     additionalneeds: Optional[str] = None
 
+
 class BookingResponse(BaseModel):
     bookingid: int
     booking: Booking
-

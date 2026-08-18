@@ -6,19 +6,23 @@ BOOKING_SCHEMA = {
 
         "totalprice": {"type": "number"},
         "depositpaid": {"type": "boolean"},
-        "bookingdates":{
-            "type":"object",
+        "bookingdates": {
+            "type": "object",
             "properties": {
                 "checkin": {"type": "string"},
                 "checkout": {"type": "string"},
             },
-        "required": ["checkin", "checkout"]
+            "required": ["checkin", "checkout"]
         },
         "additionalneeds": {"type": "string"},
-
     },
-
-    "required": ["firstname", "lastname", "totalprice", "depositpaid", "bookingdates", "additionalneeds"]
+    "required": [
+        "firstname",
+        "lastname",
+        "totalprice",
+        "depositpaid",
+        "bookingdates",
+    ],
 }
 
 
@@ -38,8 +42,7 @@ CREATE_BOOKING_RESPONSE_SCHEMA = {
                 "lastname",
                 "totalprice",
                 "depositpaid",
-                "bookingdates",
-                "additionalneeds"
+                "bookingdates"
             ],
             "additionalProperties": False,
             "properties": {
